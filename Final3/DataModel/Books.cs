@@ -6,15 +6,18 @@ namespace Task3.DataModel
     {
         [Key]
         public int BookId { get; set; }
-        
+
         public string Name { get; set; }
 
-        public string genre { get; set; }
+        public string Genre { get; set; }
 
-        public Authors Authors { get; set; }
+        public Authors Author { get; set; }
+
+        public int AuthorId { get; set; }
 
         public Publisher Publisher { get; set; }
 
-        //public Borrower Borrower { get; set; }
+        public int PublisherId { get; set; }
+
     }
 }

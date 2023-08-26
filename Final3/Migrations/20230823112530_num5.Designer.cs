@@ -11,7 +11,7 @@ using Task3.DataModel;
 
 namespace Final3.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(MyContext))]
     [Migration("20230823112530_num5")]
     partial class num5
     {

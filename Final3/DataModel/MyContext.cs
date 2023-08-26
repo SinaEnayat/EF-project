@@ -2,7 +2,7 @@
 
 namespace Task3.DataModel
 {
-    public class Context : DbContext
+    public class MyContext : DbContext
     {
         public DbSet<Books> Books { get; set; }
         public DbSet<Authors> Authors { get; set; }
@@ -13,7 +13,7 @@ namespace Task3.DataModel
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server =.; Database = FinaTask; Integrated Security = True; Encrypt = False;");
+            optionsBuilder.UseSqlServer("Server =.; Database = TaskDB; Integrated Security = True; Encrypt = False;");
         }
 
 

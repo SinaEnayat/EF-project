@@ -5,15 +5,19 @@ namespace Task3.DataModel
     public class BorrowHistory
     {
         [Key]
-        public int HistoryId { get; set; }
+        public int Id { get; set; }
 
-        public Books Books { get; set; }
-        
+        public Books Book { get; set; }
+
+        public int BookId { get; set; }
+
         public Borrower Borrower { get; set; }
 
-        public DateTime DateTime { get; set; }
-        
-        public bool IsAvailable { get; set; }
+        public int BorrowerId { get; set; }
+
+       // public DateTime Date { get; set; }
+
+        public bool IsReturn { get; set; }
 
 
     }

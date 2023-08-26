@@ -1,8 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Task3.DataModel;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddDbContext<MyContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,6 +28,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-//builder.Services.AddScoped<IApplicationBuilder, ApplicationBuilder>();
 
 
