@@ -168,6 +168,21 @@ namespace Final3.Controllers
             return new JsonResult(topBorrower);
         }
 
+        [HttpGet("GetBookByTitleOrAuthor")]
+        public IActionResult GetBookByTitleOrAuthor([FromQuery]GetBookByTitleViewModel model)
+        {
+           var result = _context.Books.Where(b=>b.Name == model.Title || b.Author.AuthorName == model.Title).ToList();
+            return Ok(result);
+        }
+
+    /*    [HttpGet("GetBookByGenre")]
+        public IActionResult GetBookByGenre([FromQuery]GetBookByTitleViewModel model)
+        {
+            var result = _context.Books.Where(b => b.Genre == model.Title).ToList();
+            return Ok(result);
+        }*/
+
+
 
 
 
