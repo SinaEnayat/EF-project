@@ -18,7 +18,7 @@ namespace Final3.Controllers
 
         [HttpGet]
         [Route("GetAllBooks")]
-        public JsonResult getAllBooks()
+        public IActionResult getAllBooks()
         {
             var books = _context.Books.ToList();
             /*var books = (from book in _context.Books
@@ -43,7 +43,7 @@ namespace Final3.Controllers
 
         [HttpGet]
         [Route("getAllBorrower")]
-        public JsonResult GetAllBorrower()
+        public  JsonResult GetAllBorrower()
         {
             var borrow = (from borrower in _context.Borrower
                           join history in _context.BorrowHistory
@@ -53,13 +53,26 @@ namespace Final3.Controllers
                               Borrower = borrower.BorrowerName,
                               History = history.Borrower.Id
                           });
+
+
+            /*var borrow = _context.Borrower.Join(_context.BorrowHistory,
+                                                    brrowerr => brrowerr.Id,
+                                                    brrowerhistory => brrowerhistory.BorrowerId,
+                                                    (brrowerr, brrowerhistory) => new
+                                                    {
+                                                        Borrower = brrowerr.BorrowerName,
+                                                        History = brrowerhistory.Borrower.Id
+                                                    });*/
+
+
+
             return new JsonResult(borrow);
 
         }
 
         [HttpPost]
         [Route("BorrowBook")]
-        public void BorrowBook(BorrowBookViewModel model)
+        public IActionResult BorrowBook(BorrowBookViewModel model)
         {
             var BorrowHistoryModel = new BorrowHistory()
             {
@@ -69,12 +82,14 @@ namespace Final3.Controllers
             };
             try
             {
+                throw new Exception("Error Sina");
                 _context.BorrowHistory.Add(BorrowHistoryModel);
                 _context.SaveChanges();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Fail!");
+                return BadRequest(ex.Message);
             }
 
         }
@@ -124,7 +139,7 @@ namespace Final3.Controllers
         [HttpGet("GetByBrrowerId")]
         public JsonResult GetByBrrowerId([FromQuery] GetByBorrowerIdViewModel model)
         {
-            var result = (from bh in _context.BorrowHistory
+            /*var result = (from bh in _context.BorrowHistory
                           join b in _context.Books
                           on bh.BookId equals b.BookId
                           where bh.BorrowerId == model.BorrowerId
@@ -133,8 +148,28 @@ namespace Final3.Controllers
                               BookName = b.Name,
                               Genre = b.Genre,
                               BookId = b.BookId
+                          });*/
 
-                          });
+            /*var result = _context.BorrowHistory.Where(b=>b.BorrowerId == model.BorrowerId).Join(_context.Books,
+                                                       book => book.BookId,
+                                                       brrower => brrower.BookId,
+                                                       (book, brrower) => new
+                                                       {
+                                                           BookName = brrower.Name,
+                                                           Genre = brrower.Genre,
+                                                           BookId = brrower.BookId
+                                                       }
+                                                    );*/
+
+            var result = _context.BorrowHistory.Where(b => b.BorrowerId == model.BorrowerId).Include(borrow => borrow.Book).Select(borrow => new
+            {
+                BookName = borrow.Book.Name,
+                Genre = borrow.Book.Genre,
+                BookId = borrow.BookId
+            });
+
+
+
             return new JsonResult(result);
         }
 
